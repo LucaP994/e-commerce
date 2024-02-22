@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: ecomm
+    password: zaq1xsw2
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/ecommerce
+      client:
+        registration:
+          keycloak:
+            client-id: ecommerce_kc
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8085/realms/ecommerce
+            user-name-attribute: preferred_username
+  jpa:
+    hibernate:
+      ddl-auto: update

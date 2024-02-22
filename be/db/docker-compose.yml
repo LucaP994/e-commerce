@@ -1,0 +1,22 @@
+version: '1'
+services:
+  ecommerce-oracle:
+    image: oracle/database:18.4.0-xe
+    volumes:
+      - db_ecommerce_oracle:/opt/oracle/ordata
+    environment:
+      #- ORACLE_SID=ORCLCDB
+      #- ORACLE_PDB=ORCLPDB1
+      - ORACLE_PWD=zaq1xsw2
+      #ORACLE_CHARACTERSER=AL32UTF8
+    ports:
+      - 1521:1521
+      - 5500:5500
+    networks:
+      ecom_net:
+volumes:
+  db_ecommerce_oracle:
+    external: true
+networks:
+  ecom_net:
+    driver: bridge
