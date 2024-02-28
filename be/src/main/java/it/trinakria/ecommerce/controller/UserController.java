@@ -1,66 +1,53 @@
 package it.trinakria.ecommerce.controller;
 
-import it.trinakria.ecommerce.entities.Product;
-import it.trinakria.ecommerce.entities.User;
-import it.trinakria.ecommerce.repository.UserRepo;
+import it.trinakria.ecommerce.config.AppConfiguration;
+import it.trinakria.ecommerce.model.dto.UserDto;
+import it.trinakria.ecommerce.model.entities.Product;
+import it.trinakria.ecommerce.model.entities.User;
 import it.trinakria.ecommerce.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
+@RequestMapping(value = AppConfiguration.API_BASE + "/user", produces = {"application/json"})
 public class UserController {
 
     @Autowired
-    private UserRepo userRepo;
-    @Autowired
     private UserServiceImpl userService;
-    @GetMapping("/users")
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> all() {
-        return userRepo.findAll();
+        return userService.getAll();
     }
 
-    @GetMapping("/user/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET )
     public User getUser(@PathVariable Long id) {
-        return userRepo.findById(id).get();
+        return userService.getUserById(id);
     }
-
-    @PostMapping("/user")
-    public User newUser(@RequestBody User user) {
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    public List<User> getByUsername(@RequestBody String username){
+        return userService.getUserByUsername(username);
+    }
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public User newUser(@RequestBody UserDto user) {
         User newUser = userService.create(user);
         return newUser;
     }
 
-    @PutMapping("/user/{id}")
-    public User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-        return userRepo.findById(id)
-                .map(user -> {
-                    user.setUsername(newUser.getUsername());
-                    user.setEmail(newUser.getEmail());
-                    user.setProfileImg(newUser.getProfileImg());
-                    user.setBoughtProducts(newUser.getBoughtProducts());
-                    return userRepo.save(user);
-                }).orElseGet(() -> {
-                    newUser.setId(id);
-                    return userRepo.save(newUser);
-                });
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public User updateUser(@RequestBody UserDto newUser, @PathVariable Long id) {
+        return userService.update(newUser, id);
     }
 
-    @PutMapping("user/{id}/purchase")
-    public User purchaseProduct(@RequestBody Product product, @PathVariable Long id){
-        return userRepo.findById(id)
-                .map(user ->{
-                    Set<Product> products = user.getBoughtProducts();
-                    products.add(product);
-                    user.setBoughtProducts(products);
-                    return userRepo.save(user);
-                }).get();
+    @RequestMapping(value = "{id}/purchase/{productId}", method = RequestMethod.PUT)
+    public User purchaseProduct(@PathVariable Long id, @PathVariable Long productId){
+        return userService.purchaseProduct(productId, id);
     }
 
-    @DeleteMapping("/user/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable Long id){
-        userRepo.deleteById(id);
+        userService.delete(id);
     }
 }

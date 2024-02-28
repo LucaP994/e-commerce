@@ -1,4 +1,4 @@
-package it.trinakria.ecommerce.entities;
+package it.trinakria.ecommerce.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -6,10 +6,10 @@ import lombok.Data;
 @Entity
 @Table(name = "address")
 @Data
-public class Address {
+public class Address extends BaseEntity{
 
     @Id
-    @SequenceGenerator(name="address_seq",sequenceName="address_seq")
+    @SequenceGenerator(name="address_seq",sequenceName="address_seq",initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_seq")
     @Column(name = "id")
     public Long id;

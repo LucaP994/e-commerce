@@ -1,6 +1,6 @@
 package it.trinakria.ecommerce.services;
 
-import it.trinakria.ecommerce.entities.Address;
+import it.trinakria.ecommerce.model.entities.Address;
 
 public interface AddressService {
     Address getById(Long id);

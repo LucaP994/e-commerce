@@ -1,6 +1,6 @@
 package it.trinakria.ecommerce.services;
 
-import it.trinakria.ecommerce.entities.Address;
+import it.trinakria.ecommerce.model.entities.Address;
 import it.trinakria.ecommerce.repository.AddressRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

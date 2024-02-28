@@ -53,7 +53,7 @@ spring:
             provider: keycloak
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
 logging.level.it.trinakria.ecommerce: DEBUG
 logging.level.org.hibernate.SQL: DEBUG

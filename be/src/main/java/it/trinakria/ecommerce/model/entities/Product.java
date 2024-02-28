@@ -1,4 +1,4 @@
-package it.trinakria.ecommerce.entities;
+package it.trinakria.ecommerce.model.entities;
 
 import lombok.Data;
 
@@ -10,9 +10,9 @@ import java.util.Set;
 @Entity
 @Table(name = "products")
 @Data
-public class Product {
+public class Product extends BaseEntity{
     @Id
-    @SequenceGenerator(name="products_seq",sequenceName="products_seq")
+    @SequenceGenerator(name="products_seq",sequenceName="products_seq",initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="products_seq")
     @Column(name = "id")
     private Long id;

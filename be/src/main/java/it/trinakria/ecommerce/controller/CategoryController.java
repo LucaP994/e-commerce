@@ -1,6 +1,6 @@
 package it.trinakria.ecommerce.controller;
 
-import it.trinakria.ecommerce.entities.Category;
+import it.trinakria.ecommerce.model.entities.Category;
 import it.trinakria.ecommerce.repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

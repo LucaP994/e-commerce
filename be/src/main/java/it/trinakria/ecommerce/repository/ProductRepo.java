@@ -1,6 +1,6 @@
 package it.trinakria.ecommerce.repository;
 
-import it.trinakria.ecommerce.entities.Product;
+import it.trinakria.ecommerce.model.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

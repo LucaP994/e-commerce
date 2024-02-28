@@ -1,21 +1,23 @@
-package it.trinakria.ecommerce.entities;
+package it.trinakria.ecommerce.model.entities;
 
+import it.trinakria.ecommerce.model.dto.Role;
 import jakarta.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
+@Getter
+@Setter
 @Entity
-@Table(name = "users")
-@Data
-public class User {
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"username"}, name = "unique_user_username")
+        })
+public class User extends BaseEntity{
     @Id
-    @SequenceGenerator(name="users_seq",sequenceName="users_seq")
+    @SequenceGenerator(name="users_seq",sequenceName="users_seq",initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="users_seq")
     @Column(name = "id")
     public Long id;
@@ -30,7 +32,7 @@ public class User {
     public String firstname;
     @Column(name = "lastname")
     public String lastname;
-    @Column(name = "password")
+
     public String password;
 
     @Column(name = "email", unique = true)
@@ -39,14 +41,18 @@ public class User {
     @Column(name = "profileImg")
     public String profileImg;
 
+    @Column(name = "dateOfBirth")
+    public Date dateOfBirth;
+
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_product",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "product_id") })
-    private Set<Product> boughtProducts = new HashSet<>();
+    private List<Product> boughtProducts = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     public Address address;
+
 }
