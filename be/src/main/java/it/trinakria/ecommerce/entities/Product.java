@@ -12,8 +12,8 @@ import java.util.Set;
 @Data
 public class Product {
     @Id
-    @SequenceGenerator(name="seq",sequenceName="products_seq")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @SequenceGenerator(name="products_seq",sequenceName="products_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="products_seq")
     @Column(name = "id")
     private Long id;
 

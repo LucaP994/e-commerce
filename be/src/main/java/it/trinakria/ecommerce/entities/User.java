@@ -15,8 +15,8 @@ import java.util.Set;
 @Data
 public class User {
     @Id
-    @SequenceGenerator(name="seq",sequenceName="users_seq")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @SequenceGenerator(name="users_seq",sequenceName="users_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="users_seq")
     @Column(name = "id")
     public Long id;
 
@@ -24,13 +24,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     public String username;
-
+    @Column(name = "firstname")
+    public String firstname;
+    @Column(name = "lastname")
+    public String lastname;
     @Column(name = "password")
     public String password;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     public String email;
 
     @Column(name = "profileImg")
@@ -43,4 +46,7 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "product_id") })
     private Set<Product> boughtProducts = new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    public Address address;
 }

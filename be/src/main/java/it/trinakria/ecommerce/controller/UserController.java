@@ -3,6 +3,7 @@ package it.trinakria.ecommerce.controller;
 import it.trinakria.ecommerce.entities.Product;
 import it.trinakria.ecommerce.entities.User;
 import it.trinakria.ecommerce.repository.UserRepo;
+import it.trinakria.ecommerce.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,8 @@ public class UserController {
 
     @Autowired
     private UserRepo userRepo;
-
+    @Autowired
+    private UserServiceImpl userService;
     @GetMapping("/users")
     public List<User> all() {
         return userRepo.findAll();
@@ -27,14 +29,7 @@ public class UserController {
 
     @PostMapping("/user")
     public User newUser(@RequestBody User user) {
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(user.getPassword());
-        newUser.setEmail(user.getEmail());
-        newUser.setRole(user.getRole());
-        newUser.setProfileImg(user.getProfileImg());
-        newUser.setBoughtProducts(user.getBoughtProducts());
-        userRepo.save(newUser);
+        User newUser = userService.create(user);
         return newUser;
     }
 

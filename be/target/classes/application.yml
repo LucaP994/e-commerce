@@ -1,3 +1,23 @@
+backend:
+  cors:
+    allowed-origin-patterns: '*'
+    allow-credentials: true
+    allowed-methods: GET, POST, OPTIONS, PUT, DELETE
+    allowed-headers: Origin, Content-Type, Accept, Authorization, x-requested-with
+  keycloak:
+    url: http://localhost:8085
+    realm: ecommerce
+    client_id: ecommerce_kc
+    client_secret: DEGHOxImSvWpJYDHRUH10L6yXdULzxA4
+    username: admin
+    password: admin
+  page:
+    default_direction: ASC
+    page_size: 5
+server:
+  port: 8080
+  servlet:
+    context-path: /ecommerce
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -7,21 +27,34 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
+  jackson:
+    date-format: yyyy-MM-dd'T'HH.mm.ss.SSSXXX
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+      write_dates_as_timestamps: false
+  main:
+    allow-circular-references: true
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8085/realms/ecommerce
+          issuer-uri: ${backend.keycloak.url}/realms/${backend.keycloak.realm}
       client:
-        registration:
-          keycloak:
-            client-id: ecommerce_kc
-            authorization-grant-type: authorization_code
-            scope: openid
         provider:
           keycloak:
-            issuer-uri: http://localhost:8085/realms/ecommerce
-            user-name-attribute: preferred_username
+            issuer-uri: ${backend.keycloak.url}/realms/${backend.keycloak.realm}
+            authorization-uri: ${backend.keycloak.url}/realms/${backend.keycloak.realm}/protocol/openid-connect/auth
+            token-uri: ${backend.keycloak.url}/realms/${backend.keycloak.realm}/protocol/openid-connect/token
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: ${backend.keycloak.client_id}
+            scope: openid
+            provider: keycloak
   jpa:
     hibernate:
       ddl-auto: update
+
+logging.level.it.trinakria.ecommerce: DEBUG
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE

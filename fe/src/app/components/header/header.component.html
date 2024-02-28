@@ -1,0 +1,24 @@
+<div class="header navbar-bg">
+    <div class="main-bar">
+        <div class="logo"></div>
+        <div class="search-box">
+            <input type="text" name="" id="" class="search" placeholder="Cerca...">
+            <button type="button" class="search-btn">Cerca</button>
+        </div>
+        <div class="menu-btn" (click)="openMenu()">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
+        <div class="login-box">
+            <p class="login" (click)="logIn()" *ngIf="!user.isLogged">LogIn</p>
+            <p class="signin" *ngIf="!user.isLogged">SignIn</p>
+            <p class="logout" *ngIf="user.isLogged" (click)="logOut()">LogOut</p>
+        </div>
+    </div>
+    <div class="menu">
+        <p (click)="navigate('home')"><mat-icon aria-hidden="false" aria-label="Home" fontIcon="home"></mat-icon> Home</p>
+        <p (click)="navigate('categories')"><mat-icon aria-hidden="false" aria-label="Categorie" fontIcon="category"></mat-icon> Categorie</p>
+        <p (click)="navigate('cart')"><mat-icon aria-hidden="false" aria-label="Carello" fontIcon="shopping_cart"></mat-icon> Carrello</p>
+    </div>
+</div>

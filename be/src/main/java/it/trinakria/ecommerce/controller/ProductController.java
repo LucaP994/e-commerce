@@ -1,4 +1,5 @@
 package it.trinakria.ecommerce.controller;
+import it.trinakria.ecommerce.config.AppConfiguration;
 import it.trinakria.ecommerce.entities.Category;
 import it.trinakria.ecommerce.entities.Product;
 import it.trinakria.ecommerce.repository.ProductRepo;
@@ -9,11 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@RequestMapping(value = AppConfiguration.API_BASE + "/products", produces = {"application/json"})
 public class ProductController {
     @Autowired
     private ProductRepo productRepo;
 
-    @GetMapping("/products")
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
     List<Product> all(){
         List<Product> products = productRepo.findAll();
         for(Product it: products){
