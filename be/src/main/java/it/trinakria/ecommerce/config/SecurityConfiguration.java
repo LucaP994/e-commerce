@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Collection;
@@ -45,7 +46,8 @@ public class SecurityConfiguration {
                 })
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/api/v1/user/new")
+                                .requestMatchers("**")
+                                /*.requestMatchers("/api/v1/user/new")
                                 .permitAll()
                                 .requestMatchers("/api/v1/user/all")
                                 .hasRole(ROLE_ADMIN)
@@ -55,6 +57,8 @@ public class SecurityConfiguration {
                                 .hasRole(ROLE_ADMIN)
                                 .requestMatchers(HttpMethod.PUT)
                                 .hasRole(ROLE_ADMIN)
+                                .requestMatchers("/api/v1/products", new AntPathRequestMatcher("/api/v1/products/**").getPattern())*/
+                                .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

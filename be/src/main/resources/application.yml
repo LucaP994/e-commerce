@@ -7,7 +7,7 @@ backend:
   keycloak:
     url: http://localhost:8085
     realm: ecommerce
-    client_id: ecommerce_kc
+    client_id: e49f12d7-da31-4844-963f-9296f6a392f4
     client_secret: DEGHOxImSvWpJYDHRUH10L6yXdULzxA4
     username: admin
     password: admin
@@ -53,7 +53,7 @@ spring:
             provider: keycloak
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
 logging.level.it.trinakria.ecommerce: DEBUG
 logging.level.org.hibernate.SQL: DEBUG

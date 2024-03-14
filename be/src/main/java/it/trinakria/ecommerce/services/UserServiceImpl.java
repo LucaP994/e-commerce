@@ -73,7 +73,10 @@ public class UserServiceImpl implements UserService {
             User saved = userRepo.saveAndFlush(newUser);
             KcUser kcUser = new KcUser();
             List<String> roles = new ArrayList<>();
-            roles.add("user");
+            roles.add(String.valueOf(saved.getRole()).toLowerCase());
+            if(!roles.contains("user")){
+                roles.add("user");
+            }
             kcUser.setUserName(saved.getUsername());
             kcUser.setPassword(saved.getPassword());
             kcUser.setEmailId(saved.getEmail());
@@ -81,6 +84,7 @@ public class UserServiceImpl implements UserService {
             kcUser.setLastName(saved.getLastname());
             kcUser.setRoles(roles);
             kcService.addUser(kcUser);
+            kcService.setRole(roles, saved.getEmail());
 
         } catch (ParseException ex) {
             log.error(ex.getMessage());

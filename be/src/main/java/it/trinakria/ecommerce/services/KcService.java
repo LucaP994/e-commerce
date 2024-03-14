@@ -4,13 +4,16 @@ import it.trinakria.ecommerce.config.Credentials;
 import it.trinakria.ecommerce.config.KeycloakConfig;
 import it.trinakria.ecommerce.model.entities.KcUser;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.resource.*;
+import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Response;
 import java.util.*;
 
 @Service
@@ -21,10 +24,9 @@ public class KcService {
     KeycloakConfig keycloakConfig;
     @Value("${backend.keycloak.realm}")
     private String realm;
-
+    @Value("${backend.keycloak.client_id}")
+    private String client;
     public void addUser(KcUser userDTO){
-        Map<String, List<String>> clientRoles = new HashMap<>();
-        clientRoles.put("ecommerce_kc",userDTO.getRoles());
         CredentialRepresentation credential = Credentials
                 .createPasswordCredentials(userDTO.getPassword());
         UserRepresentation user = new UserRepresentation();
@@ -34,15 +36,32 @@ public class KcService {
         user.setEmail(userDTO.getEmailId());
         user.setCredentials(Collections.singletonList(credential));
         user.setEnabled(true);
-        user.setRealmRoles(userDTO.getRoles());
-        user.setClientRoles(clientRoles);
-        UsersResource instance = getInstance();
-        instance.create(user);
+
+        UsersResource userResource = getUserResources();
+        userResource.create(user);
     }
 
+    private RolesResource getRoleResources(){
+        return keycloakConfig.getInstance().realm(realm).clients().get(client).roles();
+    }
 
-
-    private UsersResource getInstance(){
+    private UsersResource getUserResources(){
         return keycloakConfig.getInstance().realm(realm).users();
+    }
+
+    public void setRole(List<String> roles, String email){
+        UsersResource userResource = getUserResources();
+        List<RoleRepresentation> kcRoles = new ArrayList<>();
+        for(String s : roles) {
+            RoleRepresentation newRole = getRoleResources().get(s).toRepresentation();
+            kcRoles.add(newRole);
+        }
+        List<UserRepresentation> kcUser = userResource.list();
+        for(UserRepresentation us : kcUser){
+            System.out.println("KcUser: "+us.getId());
+            if(us.getEmail() != null && us.getEmail().equals(email)){
+                userResource.get(us.getId()).roles().clientLevel(client).add(kcRoles);
+            }
+        }
     }
 }

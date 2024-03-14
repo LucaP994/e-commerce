@@ -1,8 +1,10 @@
 package it.trinakria.ecommerce.controller;
 import it.trinakria.ecommerce.config.AppConfiguration;
+import it.trinakria.ecommerce.model.dto.ProductDto;
 import it.trinakria.ecommerce.model.entities.Category;
 import it.trinakria.ecommerce.model.entities.Product;
 import it.trinakria.ecommerce.repository.ProductRepo;
+import it.trinakria.ecommerce.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,63 +16,39 @@ import java.util.Set;
 public class ProductController {
     @Autowired
     private ProductRepo productRepo;
-
-    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    @Autowired
+    private ProductServiceImpl productService;
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     List<Product> all(){
-        List<Product> products = productRepo.findAll();
-        for(Product it: products){
-            Set<Category> categories = it.getCategories();
-            for(Category cat: categories){
-                System.out.println(cat.getName());
-            }
-        }
-        return productRepo.findAll();
+        return productService.getAll();
     }
 
-    @GetMapping("/product/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     Product getProduct(@PathVariable Long id){
-        return productRepo.findById(id).get();
+        return productService.getById(id);
     }
 
-    @GetMapping("/products/category/{id}")
+    @RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
     List<Product> getByCategory(@PathVariable Long id){
-        return productRepo.findItemsByCategoriesId(id);
+        return productService.getByCategory(id);
     }
 
-    @PostMapping("/product")
-    Product newProduct(@RequestBody Product product){
-        return productRepo.save(product);
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    Product newProduct(@RequestBody ProductDto product){
+        return productService.create(product);
     }
 
-    @PutMapping("/product/{id}")
-    Product updateProduct(@RequestBody Product newProduct, @PathVariable Long id){
-        return productRepo.findById(id)
-                .map(product -> {
-                    product.setName(newProduct.getName());
-                    product.setDescription(newProduct.getDescription());
-                    product.setCategories(newProduct.getCategories());
-                    product.setPrice(newProduct.getPrice());
-                    product.setImgUrls(newProduct.getImgUrls());
-                    product.setRatingCount(newProduct.getRatingCount());
-                    return productRepo.save(product);
-                })
-                .orElseGet(() -> {
-                    newProduct.setId(id);
-                    return productRepo.save(newProduct);
-                });
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    Product updateProduct(@RequestBody ProductDto newProduct, @PathVariable Long id){
+        return productService.update(newProduct, id);
+
     }
-    @PutMapping("/product/category/{id}")
-    Product setCategory(@RequestBody Category category, @PathVariable Long id){
-        return productRepo.findById(id)
-                .map(product -> {
-                    Set<Category> categories = product.getCategories();
-                    categories.add(category);
-                    product.setCategories(categories);
-                    return productRepo.save(product);
-                }).get();
+    @RequestMapping(value = "/{id}/category/{categoryId}", method = RequestMethod.PUT)
+    Product setCategory(@PathVariable Long id,@PathVariable Long categoryId ){
+        return productService.setCategory(id,categoryId);
     }
-    @DeleteMapping("/product/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     void deleteProduct(@PathVariable Long id){
-        productRepo.deleteById(id);
+        productService.delete(id);
     }
 }
