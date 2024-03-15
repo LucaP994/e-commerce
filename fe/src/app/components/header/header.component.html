@@ -12,13 +12,27 @@
         </div>
         <div class="login-box">
             <p class="login" (click)="logIn()" *ngIf="!user.isLogged">LogIn</p>
-            <p class="signin" *ngIf="!user.isLogged">SignIn</p>
-            <p class="logout" *ngIf="user.isLogged" (click)="logOut()">LogOut</p>
+            <p class="signin" *ngIf="!user.isLogged" (click)="navigate('signin')">SignIn</p>
+            <div *ngIf="user.isLogged">
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <div class="logout">
+                        <p>Ciao {{user.name.split(" ")[0]}}</p>
+                        <mat-icon>arrow_drop_down</mat-icon>
+                    </div>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <p class="ms-2 menu-item">Account</p>
+                    <p (click)="logOut()" class="ms-2 menu-item">Esci</p>
+                </mat-menu>
+            </div>
         </div>
     </div>
     <div class="menu">
-        <p (click)="navigate('home')"><mat-icon aria-hidden="false" aria-label="Home" fontIcon="home"></mat-icon> Home</p>
-        <p (click)="navigate('categories')"><mat-icon aria-hidden="false" aria-label="Categorie" fontIcon="category"></mat-icon> Categorie</p>
-        <p (click)="navigate('cart')"><mat-icon aria-hidden="false" aria-label="Carello" fontIcon="shopping_cart"></mat-icon> Carrello</p>
+        <p (click)="navigate('home')"><mat-icon aria-hidden="false" aria-label="Home" fontIcon="home"></mat-icon> Home
+        </p>
+        <p (click)="navigate('categories')"><mat-icon aria-hidden="false" aria-label="Categorie"
+                fontIcon="category"></mat-icon> Categorie</p>
+        <p (click)="navigate('cart')"><mat-icon aria-hidden="false" aria-label="Carello"
+                fontIcon="shopping_cart"></mat-icon> Carrello</p>
     </div>
 </div>

@@ -62,7 +62,7 @@ $fe-theme: mat.define-light-theme((
     justify-content: center;
     align-items: center;
 }
-.header p:hover{
+.header .menu p:hover{
     color: #f6bb31;
 }
 .navbar-bg{
@@ -129,6 +129,23 @@ $fe-theme: mat.define-light-theme((
 .login-box p{
     margin: 0 10px;
 }
+.logout{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+.ms-2{
+    margin-left: 0.5rem;
+}
+.menu-item{
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+.menu-item:hover{
+    color: #f6bb31;
+}
 .menu{
     background-color: #1b6285fe;
     height: 2rem;
@@ -161,6 +178,20 @@ $fe-theme: mat.define-light-theme((
     top: 0;
     position: relative;
 }
+//======================= SignIn =========================
+.sign-in-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sign-in-box form{
+    margin-top: 2rem;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 @media screen and (max-width: 768px) {
     .login-box, .menu{
         display: none;
@@ -174,3 +205,4 @@ $fe-theme: mat.define-light-theme((
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

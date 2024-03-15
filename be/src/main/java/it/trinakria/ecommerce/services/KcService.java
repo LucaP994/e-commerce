@@ -24,7 +24,7 @@ public class KcService {
     KeycloakConfig keycloakConfig;
     @Value("${backend.keycloak.realm}")
     private String realm;
-    @Value("${backend.keycloak.client_id}")
+    @Value("${backend.keycloak.client_uuid}")
     private String client;
     public void addUser(KcUser userDTO){
         CredentialRepresentation credential = Credentials

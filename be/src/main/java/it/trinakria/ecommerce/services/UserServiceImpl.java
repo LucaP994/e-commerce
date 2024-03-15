@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         } catch (ParseException ex) {
             log.error(ex.getMessage());
         }catch (Exception ex){
-            log.error("Attenzione! Username o Email già in uso.");
+            log.error("Attenzione! Username o Email già in uso.",ex);
             newUser = null;
         }
         return newUser;
