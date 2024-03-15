@@ -35,7 +35,7 @@ public class Product extends BaseEntity{
     private Double rating;
 
     @Column(name = "ratingCount")
-    private Double ratingCount;
+    private Long ratingCount;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(

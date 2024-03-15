@@ -15,6 +15,7 @@ public interface UserService {
     User create(UserDto user);
     User update(UserDto user,Long id);
     User purchaseProduct(Long productId, Long id);
+    String purchase(Long id);
     void delete(Long id);
 
 }

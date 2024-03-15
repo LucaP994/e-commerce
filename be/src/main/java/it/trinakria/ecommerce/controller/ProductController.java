@@ -41,11 +41,19 @@ public class ProductController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     Product updateProduct(@RequestBody ProductDto newProduct, @PathVariable Long id){
         return productService.update(newProduct, id);
+    }
 
+    @RequestMapping(value = "/rate/{id}", method = RequestMethod.PUT)
+    Product setRating(@RequestBody Double rating, @PathVariable Long id ){
+        return productService.setRating(id, rating);
     }
     @RequestMapping(value = "/{id}/category/{categoryId}", method = RequestMethod.PUT)
     Product setCategory(@PathVariable Long id,@PathVariable Long categoryId ){
         return productService.setCategory(id,categoryId);
+    }
+    @RequestMapping(value = "/{id}/category/{categoryId}", method = RequestMethod.DELETE)
+    Product removeCategory(@PathVariable Long id,@PathVariable Long categoryId ){
+        return productService.removeCategory(id,categoryId);
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     void deleteProduct(@PathVariable Long id){

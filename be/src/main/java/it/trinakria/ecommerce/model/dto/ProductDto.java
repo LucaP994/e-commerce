@@ -17,7 +17,7 @@ public class ProductDto extends BaseDto{
     private String imgUrls;
     private Double price;
     private Double rating;
-    private Double ratingCount;
+    private Long ratingCount;
     private List<Long> categories = new ArrayList<>();
 
 }

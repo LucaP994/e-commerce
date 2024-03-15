@@ -119,6 +119,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String purchase(Long id) {
+        return userRepo.findById(id)
+                .map(user -> {
+                    List<Product> products = user.getBoughtProducts();
+                    Double amount = 0.0;
+                    for(Product p : products){
+                        amount += p.getPrice();
+                    }
+                    String res = "Purchased "+products.size()+" items for a value of "+amount+" €.";
+                    products.removeAll(products);
+                    user.setBoughtProducts(products);
+                    userRepo.save(user);
+                    return res;
+                }).get();
+    }
+
+    @Override
     public void delete(Long id) {
         userRepo.deleteById(id);
     }

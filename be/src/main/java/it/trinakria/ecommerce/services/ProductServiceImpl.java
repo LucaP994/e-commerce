@@ -49,8 +49,7 @@ public class ProductServiceImpl implements ProductService {
     public Product create(ProductDto newProduct) {
         List<Category> categories = new ArrayList<>();
         for (Long c : newProduct.getCategories()) {
-            Category newCat = categoryRepo.findById(c).get();
-            categories.add(newCat);
+            categories.add(categoryRepo.findById(c).get());
         }
         Product product = new Product();
         product.setName(newProduct.getName());
@@ -59,25 +58,22 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(newProduct.getPrice());
         product.setImgUrls(newProduct.getImgUrls());
         product.setRatingCount(newProduct.getRatingCount());
+        product.setRating(newProduct.getRating());
         return productRepo.save(product);
     }
 
     @Override
     public Product update(ProductDto newProduct, Long id) {
         Product product = productRepo.findById(id).get();
-        List<Category> categories = new ArrayList<>();
+        /*List<Category> categories = new ArrayList<>();
         for (Category c : product.getCategories()) {
-            Category newCat = new Category();
-            newCat.setName(c.getName());
-            categories.add(newCat);
-        }
+            categories.add(new Category(c.getName()));
+        }*/
         product.setName(newProduct.getName());
         product.setDescription(newProduct.getDescription());
-        product.setCategories(categories);
+        //product.setCategories(categories);
         product.setPrice(newProduct.getPrice());
         product.setImgUrls(newProduct.getImgUrls());
-        product.setRating(newProduct.getRating());
-        product.setRatingCount(newProduct.getRatingCount());
         product.setUpdateAt(new Date());
         return productRepo.save(product);
     }
@@ -95,6 +91,34 @@ public class ProductServiceImpl implements ProductService {
                     }
                     return productRepo.save(product);
                 }).get();
+    }
+
+    @Override
+    public Product removeCategory(Long productId, Long categoryId) {
+        Category newCat = categoryRepo.findById(categoryId).get();
+        return productRepo.findById(productId)
+                .map(product -> {
+                    if(product.getCategories().contains(newCat)) {
+                        List<Category> categories = product.getCategories();
+                        categories.remove(newCat);
+                        product.setCategories(categories);
+                        product.setUpdateAt(new Date());
+                    }
+                    return productRepo.save(product);
+                }).get();
+    }
+
+    @Override
+    public Product setRating(Long id, Double rating) {
+        Product product = productRepo.findById(id).get();
+        product.setRatingCount(product.getRatingCount()+1);
+        Double ratingDef = (rating - product.getRating())/product.getRatingCount();
+        long factor = (long) Math.pow(10, 2);
+        ratingDef = ratingDef * factor;
+        long tmp = Math.round(ratingDef);
+        Double newRating = product.getRating() + ((double) tmp / factor);
+        product.setRating(newRating);
+        return productRepo.save(product);
     }
 
     @Override

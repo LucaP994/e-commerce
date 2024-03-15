@@ -2,10 +2,13 @@ package it.trinakria.ecommerce.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "categories")
-@Data
+@Getter
+@Setter
 public class Category extends BaseEntity{
     @Id
     @SequenceGenerator(name="categories_seq",sequenceName="categories_seq",initialValue = 1, allocationSize = 1)
@@ -14,5 +17,8 @@ public class Category extends BaseEntity{
     private Long id;
     @Column(name = "name")
     private String name;
-
+    public Category(String name){
+        this.name = name;
+    }
+    public Category(){}
 }

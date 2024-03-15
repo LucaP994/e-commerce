@@ -45,7 +45,10 @@ public class UserController {
     public User purchaseProduct(@PathVariable Long id, @PathVariable Long productId){
         return userService.purchaseProduct(productId, id);
     }
-
+    @RequestMapping(value = "{id}/purchase", method = RequestMethod.POST)
+    public String purchase(@PathVariable Long id){
+        return userService.purchase(id);
+    }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable Long id){
         userService.delete(id);
