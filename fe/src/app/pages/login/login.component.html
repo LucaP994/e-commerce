@@ -1,1 +1,16 @@
-<p>login works!</p>
+<div class="sign-in-box">
+    <form action="">
+        <h2 style="margin-bottom: 2rem;">Per continuare, inserisci i tuoi dati qui</h2>
+        <div class="input-box">
+            <mat-form-field class="">
+                <mat-label>Username o Email</mat-label>
+                <input [formControl]="username" matInput placeholder="Username o Email..." value="" required>
+            </mat-form-field>
+            <mat-form-field class="">
+                <mat-label>Password</mat-label>
+                <input [formControl]="password" type="password" matInput placeholder="Password..." value="" required>
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" style="width: 80%;" (click)="login()">Accedi</button>
+    </form>
+</div>

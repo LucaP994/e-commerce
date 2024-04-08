@@ -6,6 +6,10 @@ import { AppContextService } from 'src/app/service/app-context.service';
 import { LoginService } from 'src/app/service/login.service';
 import { environment } from 'src/environments/environment.development';
 import localeIt from '@angular/common/locales/it';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from 'src/app/pages/login/login.component';
+import { SigninComponent } from 'src/app/pages/signin/signin.component';
+import { LoggedUser } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -15,30 +19,25 @@ import localeIt from '@angular/common/locales/it';
 export class HeaderComponent {
   public loggedIn: boolean = false;
   private open: boolean = false;
-
+  public user: LoggedUser = new LoggedUser();
   constructor(
     private loginService: LoginService,
     private keycloakService: KeycloakService,
     private context: AppContextService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ){
 
   }
-  public user: any = {
-    name: "",
-    username: "",
-    email: "",
-    userRoles: [],
-    isAdmin: false,
-    isLogged: false
-  };
-
 
   ngAfterViewInit() {
+    this.context.onLoaded.subscribe(res => {
+      this.user = JSON.parse(sessionStorage.getItem('user'));
+    })
     if(JSON.parse(sessionStorage.getItem('user')) != null)
       this.user = JSON.parse(sessionStorage.getItem('user'));
-    console.log(this.keycloakService.isLoggedIn())
-      if (this.keycloakService.isLoggedIn()) {
+    //console.log(this.keycloakService.isLoggedIn())
+      /*if (this.keycloakService.isLoggedIn()) {
         this.keycloakService.getKeycloakInstance().loadUserInfo().then((res: any) => {
           this.user.name = res.name;
           this.user.username = res.preferred_username;
@@ -55,7 +54,7 @@ export class HeaderComponent {
           this.router.navigateByUrl('/')
           this.context.onLoadedSub();
         });
-      }
+      }*/
     registerLocaleData(localeIt, 'it-IT');
   }
 
@@ -84,7 +83,7 @@ export class HeaderComponent {
     }
   }
   public logIn(){
-    this.loginService.logIn(environment.redirectUri);
+    this.loginService.logIn();
   }
   public logOut(){
     this.loginService.logOut();
@@ -92,5 +91,26 @@ export class HeaderComponent {
   }
   public navigate(uri: string){
     this.router.navigate([uri]);
+  }
+  openDialog(type: string): void {
+    let dialogRef = null;
+    if(type === "login"){
+      dialogRef = this.dialog.open(LoginComponent, {
+        height: '250px',
+        width: '600px',
+        data: {data: "test"},
+      });
+    }else{
+      dialogRef = this.dialog.open(SigninComponent, {
+        height: '400px',
+        width: '600px',
+        data: {data: "test"},
+      });
+    }    
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+    });
   }
 }

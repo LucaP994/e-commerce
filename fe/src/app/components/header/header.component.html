@@ -11,8 +11,8 @@
             <div class="menu-line"></div>
         </div>
         <div class="login-box">
-            <p class="login" (click)="logIn()" *ngIf="!user.isLogged">LogIn</p>
-            <p class="signin" *ngIf="!user.isLogged" (click)="navigate('signin')">SignIn</p>
+            <p class="login" (click)="openDialog('login')" *ngIf="!user.isLogged">Accedi</p>
+            <p class="signin" *ngIf="!user.isLogged" (click)="openDialog('signin')">Registrati</p>
             <div *ngIf="user.isLogged">
                 <button mat-button [matMenuTriggerFor]="menu">
                     <div class="logout">

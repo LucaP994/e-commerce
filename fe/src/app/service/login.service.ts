@@ -11,10 +11,10 @@ export class LoginService {
     protected readonly keycloak: KeycloakService
   ) { }
 
-  public logIn(redirectUri: string){ 
+  public logIn(){ 
     this.keycloak.login(
       {
-        redirectUri: redirectUri,
+        redirectUri: environment.redirectUri,
       }
     );
   }

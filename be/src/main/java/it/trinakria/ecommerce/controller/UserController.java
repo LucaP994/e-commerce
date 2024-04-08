@@ -5,12 +5,14 @@ import it.trinakria.ecommerce.model.dto.UserDto;
 import it.trinakria.ecommerce.model.entities.Product;
 import it.trinakria.ecommerce.model.entities.User;
 import it.trinakria.ecommerce.services.UserServiceImpl;
+import it.trinakria.ecommerce.utily.ExceptionHanlder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = AppConfiguration.API_BASE + "/user", produces = {"application/json"})
 public class UserController {
 
@@ -31,7 +33,7 @@ public class UserController {
         return userService.getUserByUsername(username);
     }
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public User newUser(@RequestBody UserDto user) {
+    public User newUser(@RequestBody UserDto user) throws ExceptionHanlder {
         User newUser = userService.create(user);
         return newUser;
     }

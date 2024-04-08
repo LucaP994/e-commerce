@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Product } from 'src/app/models/product.model';
 import { ProductService } from 'src/app/service/product.service';
 
 @Component({
@@ -7,8 +8,12 @@ import { ProductService } from 'src/app/service/product.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  public products: Product[] = []
   constructor(private productService: ProductService){}
   ngAfterViewInit() {
-    this.productService.getProducts().subscribe(res => console.log(res));
+    this.productService.getProducts().subscribe(res => {
+      console.log(res)
+      res.forEach(el => this.products.push(el))
+    });
   }
 }

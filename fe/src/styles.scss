@@ -186,11 +186,47 @@ $fe-theme: mat.define-light-theme((
 }
 .sign-in-box form{
     margin-top: 2rem;
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.input-box{
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+/*===================== Home =====================*/
+.cards-container{
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.card{
+    width: 25%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px #0000004d;
+}
+.card img{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+}
+.card .text-box{
+    padding: 0.5rem;
+}
+.card .text-box span, .card h2{
+    font-weight: 600;
+}
+.card .button-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
 }
 @media screen and (max-width: 768px) {
     .login-box, .menu{

@@ -15,6 +15,7 @@ backend:
   page:
     default_direction: ASC
     page_size: 5
+  image-url: E:\Tutto\Progetti\e-commerce\be\src\main\resources\images
 server:
   port: 8080
   servlet:

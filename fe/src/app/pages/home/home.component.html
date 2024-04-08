@@ -1,1 +1,18 @@
-<p>home works!</p>
+<div>
+    <div class="cards-container">
+        <div *ngFor="let product of products" class="card">
+            <img src="../../../assets/images/{{product.id}}/2.jpg" alt="">
+            <div class="text-box">
+                <h2 class="card-title">{{product.name}}</h2>
+                <p>{{product.description}}</p>
+                <p>Prezzo: <span>{{product.price}}€</span></p>
+                <p>Rating: <span>{{product.rating}}/5</span></p>
+                <p>Recenzioni: <span>{{product.ratingCount}}</span></p>
+            </div>
+            <div class="button-box">
+                <button mat-flat-button color="primary" class="btn">Aggiungi al Carrello</button>
+                <button mat-flat-button color="primary" class="btn">Dettagli</button>
+            </div>
+        </div>
+    </div>
+</div>

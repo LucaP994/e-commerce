@@ -9,8 +9,10 @@ import it.trinakria.ecommerce.repository.CategoryRepo;
 import it.trinakria.ecommerce.repository.ProductRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +26,8 @@ public class ProductServiceImpl implements ProductService {
     ProductRepo productRepo;
     @Autowired
     CategoryRepo categoryRepo;
-
+    @Value("${backend.image-url}")
+    private String imageUrl;
     @Override
     public List<Product> getAll() {
         List<Product> products = productRepo.findAll();
@@ -119,6 +122,17 @@ public class ProductServiceImpl implements ProductService {
         Double newRating = product.getRating() + ((double) tmp / factor);
         product.setRating(newRating);
         return productRepo.save(product);
+    }
+
+    @Override
+    public List<String> getImages(Long id) {
+        File[] imagesUrl = new File(imageUrl.concat("\\").concat(id.toString())).listFiles();
+        List<String> imagesPath = new ArrayList<>();
+        for(File f: imagesUrl){
+            imagesPath.add(f.getAbsolutePath());
+            System.out.println(f);
+        }
+        return imagesPath;
     }
 
     @Override

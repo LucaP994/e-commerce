@@ -18,7 +18,13 @@ import {MatButtonModule} from '@angular/material/button';
 import { SigninComponent } from './pages/signin/signin.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +45,13 @@ import {FormsModule} from '@angular/forms';
     MatMenuModule,
     FormsModule, 
     MatFormFieldModule, 
-    MatInputModule
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
   ],
   providers: [
     {

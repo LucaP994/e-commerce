@@ -6,11 +6,14 @@ import it.trinakria.ecommerce.model.entities.Product;
 import it.trinakria.ecommerce.model.entities.User;
 import it.trinakria.ecommerce.repository.ProductRepo;
 import it.trinakria.ecommerce.repository.UserRepo;
+import it.trinakria.ecommerce.utily.ApiException;
 import it.trinakria.ecommerce.utily.ExceptionHanlder;
 import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.OracleDatabaseException;
 import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -54,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(UserDto user) {
+    public User create(UserDto user) throws ExceptionHanlder {
         User newUser = new User();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
         formatter.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
@@ -69,7 +72,8 @@ public class UserServiceImpl implements UserService {
             newUser.setProfileImg(user.getProfileImg());
             newUser.setAddress(user.getAddress());
             newUser.setDateOfBirth(dateOfBirth);
-            addressService.create(newUser.getAddress());
+            if(newUser.getAddress() != null)
+                addressService.create(newUser.getAddress());
             User saved = userRepo.saveAndFlush(newUser);
             KcUser kcUser = new KcUser();
             List<String> roles = new ArrayList<>();
@@ -88,9 +92,12 @@ public class UserServiceImpl implements UserService {
 
         } catch (ParseException ex) {
             log.error(ex.getMessage());
-        }catch (Exception ex){
-            log.error("Attenzione! Username o Email già in uso.",ex);
-            newUser = null;
+        }catch (DataIntegrityViolationException ex){
+            log.error("Attenzione! Username o Email già in uso. {}",ex.getMessage());
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR,"User already exists","Attenzione! Username o Email già in uso");
+        } catch (Exception ex){
+            log.error("Attenzione! Controllare i dati inseriti. {}",ex.getMessage());
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR,"Controllare i dati inseriti.", "Controllare i dati inseriti.");
         }
         return newUser;
     }

@@ -1,5 +1,5 @@
 import { KeycloakService } from "keycloak-angular";
-import { environment } from "src/environments/environment.development";
+import { environment } from "src/environments/environment";
 
 export function initializeKeycloak(
   keycloak: KeycloakService
@@ -7,16 +7,13 @@ export function initializeKeycloak(
     return () =>
       keycloak.init({
         config: {
-          url: 'http://localhost:8085',
-          realm: 'ecommerce',
-          clientId: 'ecommerce_kc',
+          url: environment.authUrl,
+          realm: environment.realm,
+          clientId: environment.client_id
         },
         initOptions: {
-    
             pkceMethod: 'S256', 
-            // must match to the configured value in keycloak
             redirectUri: environment.redirectUri,     
-            // this will solved the error 
             checkLoginIframe: false
           }
       });
