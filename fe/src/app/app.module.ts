@@ -25,6 +25,7 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+import { ProdDetailComponent } from './components/prod-detail/prod-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,8 +34,9 @@ import {
     HomeComponent,
     CategoriesComponent,
     CartComponent,
-    SigninComponent
-  ],
+    SigninComponent,
+    ProdDetailComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

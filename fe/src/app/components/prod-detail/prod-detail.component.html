@@ -1,0 +1,13 @@
+<div class="product-detail">
+    <h2>{{product.name}}</h2>
+    <div class="image-list">
+        <img *ngFor="let image of product.imgUrls.split(';')"src="../../../{{image}}" alt="">
+    </div>
+    <div class="text-box">
+        <p>{{product.description}}</p>
+        <p>Prezzo: <span>{{product.price}}€</span></p>
+        <p>Rating: <span>{{product.rating}}/5</span></p>
+        <p>Recenzioni: <span>{{product.ratingCount}}</span></p>
+    </div>
+    <button mat-flat-button class="btn btn-add-chart">Aggiungi al Carrello</button>
+</div>

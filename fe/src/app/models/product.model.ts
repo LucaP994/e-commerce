@@ -7,5 +7,7 @@ export class Product {
     rating: number = 0;
     ratingCount: number;
     categories: number[] = [];
+    createAt: String = "";
+    updateAt: String = "";
     constructor(){}
 }

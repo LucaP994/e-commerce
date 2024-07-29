@@ -1,17 +1,33 @@
-<div>
+<div class="section">
+    <h2>Nuovi prodotti</h2>
     <div class="cards-container">
-        <div *ngFor="let product of products" class="card">
+        <div *ngFor="let product of newProducts" class="card">
+            <h2 class="card-title">{{product.name}}</h2>
+            <div class="new-prod">Nuovo</div>
             <img src="../../../assets/images/{{product.id}}/2.jpg" alt="">
             <div class="text-box">
-                <h2 class="card-title">{{product.name}}</h2>
                 <p>{{product.description}}</p>
                 <p>Prezzo: <span>{{product.price}}€</span></p>
-                <p>Rating: <span>{{product.rating}}/5</span></p>
-                <p>Recenzioni: <span>{{product.ratingCount}}</span></p>
             </div>
             <div class="button-box">
-                <button mat-flat-button color="primary" class="btn">Aggiungi al Carrello</button>
-                <button mat-flat-button color="primary" class="btn">Dettagli</button>
+                <button mat-flat-button class="btn btn-add-chart">Aggiungi al Carrello</button>
+                <button mat-flat-button class="btn btn-detail" (click)="openDetail(product)">Dettagli</button>
+            </div>
+        </div>
+    </div>
+    <h2>Tutti i prodotti</h2>
+    <div class="cards-container">
+        <div *ngFor="let product of products" class="card">
+            <h2 class="card-title">{{product.name}}</h2>
+            <div class="new-prod">Nuovo</div>
+            <img src="../../../assets/images/{{product.id}}/2.jpg" alt="">
+            <div class="text-box">
+                <p>{{product.description}}</p>
+                <p>Prezzo: <span>{{product.price}}€</span></p>
+            </div>
+            <div class="button-box">
+                <button mat-flat-button class="btn btn-add-chart">Aggiungi al Carrello</button>
+                <button mat-flat-button class="btn btn-detail" (click)="openDetail(product)">Dettagli</button>
             </div>
         </div>
     </div>
